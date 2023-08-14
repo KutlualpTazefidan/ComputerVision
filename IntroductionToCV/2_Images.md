@@ -154,3 +154,44 @@ What makes a good Kernel?
 - Gradient is the vector made of derivatives
 - Gradient points in the direction of most rapid increase in intensity, magnitude would be the amount of change
 - We use discrete gradient, right derivative if 1 added
+- Sobel Gradient, Prewitt, Roberts for edge operators
+- for real images, a smoothing operation before edge detection can lead to better results, Edge detection is sensitive to noise
+
+- In 2d the direction of derivative is important
+- Look into the derivative of Gaussian filter if needed
+  - small sigma captures finer edges compared to larger sigma
+
+How to find edges: multiple steps: - smooth derivatives to surpress noise and compute gradient - threshold to find the regions of interest - edge thinning - connect edges
+
+Canny edge operator:
+
+1. Filter image with derivative Gaussian
+2. Find magnitude and oriantation of gradient
+3. Non-maximum suppression: Thin multi-pixel wide ridges to a single one
+4. Linking and thresholding
+   - two threshold - define and continue the edges
+   - High threshold to find strong edges
+   - Low threshold to find possible edges which can be connected to the strong ones
+
+Possible steps:
+
+- Convert to garyscale
+- Edge function to compute edges with the choice of your model
+
+# 5 Hough transform:Lines
+
+Hough transform is a voting technique, for example each pixel votes for compatible lines, we select the ones with the most votes
+
+Hough space: a line in an image would correspond to point in the space.
+
+Finding parameteric models - for example: line,circle ...
+
+Fitting a paramtric model:
+
+- Choosing model to represent a set of features
+- Global membership criterion
+- Feasible complexity
+
+From edges to lines: - from a collection of pixels to lines - checking for every possible line is not feasible - voting technique is used - features vote for all compatible models meanin cycling through features and voting - the vote of noise is inconsisntent therefore filtered - Polar coordinate system allows vertical lines without any problem
+
+Hough-Algorithm: - Polar parameterization: xcosTheta - ysinTheta = d - There is an array for the votes, the size of bins decided by me. - - Initialite the H array with 0 - For each edge point we need some quantification / grouping, solve for d - Find the values of d - detect the line
